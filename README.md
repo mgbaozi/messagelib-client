@@ -46,7 +46,7 @@ int main()
   start_client();
 }
  
-****  !!After!! connection_callback is called ,you can call these  ****
+/****  !!After!! connection_callback is called ,you can call these  ****/
 device_register(struct reg_packet packet);
 send_message(struct chat_packet packet);
 sign_in(struct sign_in_packet packet);
