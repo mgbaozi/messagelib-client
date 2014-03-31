@@ -1,0 +1,34 @@
+package login;
+
+message Register {
+	required string device_type  = 1; //ios android ...
+	required string device_token = 2; //token to push
+	required string device_uuid = 3; //device unique id
+	required string system_version = 4; //such as 7.06
+	required string software_version = 5; //such as 1.00
+	required string secret_key = 6; //app secret key, make sure has't other knows
+}
+
+message Response {
+	enum Error {
+		SUCCESS = 0;
+		UNKNOWN_DEVICE = 1;
+	}
+	required Error err = 1;
+	required string user_id = 2; //Return new user id if device_uuid is not in database 
+	required string user_token = 3; //Return a token to use api
+}
+
+message Login {
+	required string user_id = 1;
+	required string user_token = 2;
+}
+message Result {
+	enum Error {
+		SUCCESS = 0;
+		TOKEN_NOT_AVAILABLE = 1;
+	}
+	required Error err = 1;
+	required string login_token = 2;
+}
+
