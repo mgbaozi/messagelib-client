@@ -1,3 +1,5 @@
 main
 *.o
 *.swp
+*.pb.cc
+*.pb.h

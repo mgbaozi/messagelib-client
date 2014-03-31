@@ -1,5 +1,7 @@
 pb = login.pb.h chat.pb.h
 
+all: $(pb)
+
 $(pb): %.pb.h: %.proto
 	protoc --cpp_out=. $<
 

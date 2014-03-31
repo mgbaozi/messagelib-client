@@ -5,7 +5,8 @@ MAKEFLAGS = -w
 all: packet
 	g++ *.cc packet/*.cc --std=c++11 -o main -lprotobuf -levent -lpthread
 
-packet: packet/login.pb.h packet/chat.pb.h
+.PHONY: packet
+packet:
 	$(MAKE) -C packet
 
 run: all
