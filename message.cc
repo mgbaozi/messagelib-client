@@ -96,15 +96,20 @@ void init_message_module(LogMethod method)
 
 void *start_client(void *)
 {
-    if(client_ == NULL)
+	start_client_by_address("127.0.0.1", 24842);
+    return (void *)0; 
+}
+
+void start_client_by_address(const char* address, int port)
+{
+	if(client_ == NULL)
     {
         UserCallbacks *callbacks = new UserCallbacks({conn_callback, error_callback, reg_callback, sign_in_callback, chat_callback, msg_callback});
-        client_ = new KyoumeClient(callbacks, "127.0.0.1", 24842);
+        client_ = new KyoumeClient(callbacks, address, port);
         log_method_("start client");
     }
     //如果失败会返回非0值，如果成功则阻塞，正常结束连接后会返回0，如果非正常结束则返回非零
 	client_ -> start();
-    return (void *)0; 
 }
 int close_client(void)
 {

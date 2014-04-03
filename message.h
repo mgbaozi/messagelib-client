@@ -140,6 +140,7 @@ void set_message_callback(MessageCallback callback);
 int send_message(struct chat_packet packet);
 
 void *start_client(void*);
+void start_client_by_address(const char* address, int port);
 int close_client(void);
 #ifdef __cplusplus
 }
