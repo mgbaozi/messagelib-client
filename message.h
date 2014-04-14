@@ -56,6 +56,7 @@ extern "C"
 {
 #endif
 #include <stdio.h>
+#include <time.h>
 struct reg_packet
 {
 	const char *type;
@@ -98,6 +99,7 @@ struct chat_packet
     const char *other_id;
     const char *message;
     int message_id;
+	time_t time_stamp;
 };
 
 struct chat_response

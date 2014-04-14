@@ -145,6 +145,7 @@ void KyoumeClient::onReceive(const ConnectionPtr& conn, const MessagePtr& messag
     packet.other_id = receive -> from_user().data();
     packet.message = receive -> content().data();
     packet.message_id = receive -> message_id();
+	packet.time_stamp = receive -> time_stamp();
     callbacks_ -> msg_cb(packet);
 }
 
@@ -174,6 +175,7 @@ int KyoumeClient::send_message(struct chat_packet& packet)
     send -> set_message_id(packet.message_id);
     send -> set_to_user(packet.other_id);
     send -> set_content(packet.message);
+	send -> set_time_stamp(packet.time_stamp);
     conn_ -> send(router_ -> make_packet(send));
     return 0;
 }

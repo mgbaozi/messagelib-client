@@ -79,6 +79,7 @@ int main()
 	packet.other_id = user_id;
 	packet.message = buf;
 	packet.message_id = 0;
+	packet.time_stamp = time(0);
 	send_message(packet);
 	sleep(100);
 	return 0;
