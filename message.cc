@@ -96,7 +96,7 @@ void init_message_module(LogMethod method)
 
 void *start_client(void *)
 {
-	start_client_by_address("127.0.0.1", 24842);
+	start_client_by_address("114.215.188.187", 24842);
     return (void *)0; 
 }
 

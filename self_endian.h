@@ -10,18 +10,8 @@
 #define kyoume_self_endian_h
 
 #include <string.h>
-#ifdef __APPLE__
-#include <Endian.h>
-inline uint32_t be32toh(uint32_t x)
-{
-    return EndianS32_BtoN(x);
-}
-inline uint32_t htobe32(uint32_t x)
-{
-    return EndianS32_NtoB(x);
-}
-#else
-#include <endian.h>
-#endif
+#include <machine/endian.h>
+#define be32toh(x) ntohl(x)
+#define htobe32(x) htonl(x)
 
 #endif

@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <event2/buffer.h>
 #include <event2/util.h>
+#include <event2/thread.h>
 #include <assert.h>
 #include <vector>
 #include "self_endian.h"
@@ -77,6 +78,7 @@ bool TCPConnection::start()
     this -> ctx_ = new struct conn_ctx;
     ctx_ -> conn = shared_from_this();
     state_ = K_STARTING;
+	evthread_use_pthreads();
     base_ = event_base_new();
     bufev_ = bufferevent_socket_new(base_, -1, BEV_OPT_CLOSE_ON_FREE);
     //connection_bev = bufev_;
@@ -93,12 +95,26 @@ bool TCPConnection::start()
     //return true;
 }
 
+static struct event *ev;
+struct write_content
+{
+	struct bufferevent *bufev;
+	size_t be_length;
+	std::string data;
+};
+void write_function(evutil_socket_t, short, void *arg)
+{
+	auto *content = reinterpret_cast<write_content*>(arg);
+    bufferevent_write(content->bufev, &content->be_length, sizeof(int32_t));
+    bufferevent_write(content->bufev, content->data.data(), content->data.size());
+	delete content;
+}
 void TCPConnection::send(const std::string &data)
 {
     size_t length = data.size();
     length = htobe32(length);
-    bufferevent_write(bufev_, &length, sizeof(int32_t));
-    bufferevent_write(bufev_, data.data(), data.size());
+	auto *content = new write_content({bufev_, length, data});
+	event_base_once(base_, -1, EV_TIMEOUT, write_function, (void*)content, NULL);
 }
 
 void TCPConnection::on_connect(struct bufferevent *bev)

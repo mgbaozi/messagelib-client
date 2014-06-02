@@ -3,7 +3,7 @@ MAKEFLAGS = -w
 
 .PHONY: all
 all: packet
-	g++ *.cc packet/*.cc --std=c++11 -o main -lprotobuf -levent -lpthread
+	g++ *.cc packet/*.cc --std=c++11 -o main -lprotobuf -levent -lpthread -levent_pthreads
 
 .PHONY: packet
 packet:
